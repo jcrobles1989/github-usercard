@@ -3,6 +3,15 @@
            https://api.github.com/users/<your name>
 */
 
+axios.get('https://api.github.com/users/jcrobles1989').then(response => {
+  const cards = document.querySelector('.cards');
+  const cardFunction = createComponent(response.data);
+  cards.append(cardFunction);
+})
+.catch(error => {
+  console.log(`error received ${error}`)
+})
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -13,6 +22,7 @@
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -45,6 +55,40 @@ const followersArray = [];
 </div>
 
 */
+
+function createComponent (obj) {
+  const newCard = document.createElement('div');
+  newCard.classList.add("card");
+  const newImg = document.createElement('img');
+  newImg.src = obj.avatar_url;
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+  const cardName = document.createElement('h3');
+  cardName.classList.add('name');
+  cardName.textContent = obj.name;
+  const userName = document.createElement('p');
+  userName.classList.add('username');
+  userName.textContent = obj.login;
+  const location = document.createElement('p');
+  location.textContent = `Location: ${obj.location}`;
+  const profile = document.createElement('p');
+  profile.textContent = `Profile: `;
+  const profileLink = document.createElement('a');
+  profileLink.href = obj.html_url;
+  profileLink.textContent = obj.html_url;
+  const followers = document.createElement('p');
+  followers.textContent = `Followers: ${obj.followers}`;
+  const following = document.createElement('p');
+  following.textContent = `Following: ${obj.following}`;
+  const bio = document.createElement('p');
+  bio.textContent = `Bio: ${obj.bio}`;
+
+  newCard.append(newImg, cardInfo);
+  cardInfo.append(cardName, userName, location, profile, followers, following, bio);
+  profile.append(profileLink);
+
+  return newCard;
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
